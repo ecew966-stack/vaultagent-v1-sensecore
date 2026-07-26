@@ -1,0 +1,2 @@
+# Install in a separate CUDA-compatible environment.
+vllm>=0.8.5

@@ -1,0 +1,32 @@
+services:
+  qwen:
+    image: ${VLLM_IMAGE:-vllm/vllm-openai:latest}
+    command:
+      - --model
+      - ${QWEN_MODEL:-Qwen/Qwen3-8B}
+      - --served-model-name
+      - ${QWEN_MODEL:-Qwen/Qwen3-8B}
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --tensor-parallel-size
+      - ${QWEN_TENSOR_PARALLEL_SIZE:-1}
+      - --gpu-memory-utilization
+      - ${QWEN_GPU_MEMORY_UTILIZATION:-0.85}
+      - --max-model-len
+      - ${QWEN_MAX_MODEL_LEN:-8192}
+    environment:
+      HF_HOME: /model-cache
+      VLLM_USE_MODELSCOPE: ${VLLM_USE_MODELSCOPE:-false}
+    volumes: [model_cache:/model-cache]
+    ports: ["127.0.0.1:8000:8000"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+volumes:
+  model_cache:

@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vaultagent"
+version = "0.2.0"
+description = "Purpose-bound secure delegation for cloud-assisted local-knowledge AI agents."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = {text = "MIT"}
+authors = [{name = "VaultAgent Research Team"}]
+dependencies = [
+  "cryptography>=45,<50",
+  "fastapi>=0.116,<1",
+  "httpx>=0.28,<1",
+  "pydantic>=2.11,<3",
+  "pydantic-settings>=2.10,<3",
+  "PyYAML>=6,<7",
+  "uvicorn[standard]>=0.35,<1",
+]
+
+[project.optional-dependencies]
+demo = ["streamlit>=1.47,<2", "requests>=2.32,<3"]
+knowledge = [
+  "qdrant-client>=1.15,<2",
+  "sentence-transformers>=5,<6",
+  "presidio-analyzer>=2.2,<3",
+  "pymupdf>=1.26,<2",
+  "python-docx>=1.2,<2",
+  "openpyxl>=3.1,<4",
+]
+dev = ["pytest>=8,<10", "pytest-cov>=6,<8", "ruff>=0.12,<1"]
+
+[project.scripts]
+vaultagent = "src.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

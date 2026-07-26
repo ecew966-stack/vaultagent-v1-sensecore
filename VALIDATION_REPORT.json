@@ -1,0 +1,40 @@
+{
+  "package": "vaultagent-v0.2-sensecore",
+  "version": "0.2.0",
+  "validation_date": "2026-07-17",
+  "python_compile": "passed",
+  "pytest": {
+    "status": "passed",
+    "tests_passed": 15
+  },
+  "smoke_test": {
+    "status": "passed",
+    "mode": "PROTECTED_CONTEXT_CLOUD_REASONING",
+    "raw_private_values_in_cloud_payload": false,
+    "local_rehydration": "passed",
+    "audit_chain": "passed"
+  },
+  "doctor": {
+    "status": "passed",
+    "note": "Real Qwen/vLLM and DeepSeek endpoint connectivity must be checked on the target machine."
+  },
+  "cli": {
+    "status": "passed"
+  },
+  "security_checks": [
+    "task-scoped tokens differ across tasks",
+    "cross-task rehydration is rejected",
+    "undeclared slots are rejected",
+    "delegation ID mismatch is rejected",
+    "prompt injection routes to Local Only",
+    "final output cannot contain unresolved tokens",
+    "Mode 2/3 payloads exclude tested raw private values",
+    "exposure budget accounting is persisted"
+  ],
+  "limitations": [
+    "Real Qwen GPU inference was not available in the packaging environment.",
+    "A real DeepSeek API key was not used during packaging.",
+    "SenseCore CUDA, image, queue, storage and networking require account-specific adaptation.",
+    "This research prototype has not received an external security audit."
+  ]
+}
