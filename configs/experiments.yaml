@@ -1,0 +1,82 @@
+seed: 42
+repetitions: 3
+store_raw_cloud_payload: false
+store_payload_hash: true
+synthetic_data_only: true
+output_dir: experiments/results
+log_level: INFO
+models:
+  local: Qwen/Qwen3-8B
+  cloud: deepseek-v4-flash
+baselines:
+  - LOCAL_ONLY
+  - RAW_CLOUD_RAG_SYNTHETIC_ONLY
+  - REGEX_REDACTION
+  - NER_MASKING
+  - TYPED_PLACEHOLDER
+  - STATIC_PSEUDONYM
+  - CLOUD_PLAN_LOCAL_EXECUTION
+  - PROTECTED_CONTEXT_CLOUD_REASONING
+attacks:
+  - INDIRECT_PROMPT_INJECTION
+  - UNKNOWN_TOKEN
+  - CROSS_TASK_REPLAY
+  - EXPIRED_TOKEN
+  - TOKEN_TYPE_SWAP
+  - UNDECLARED_SLOT
+  - TOOL_CALL_INJECTION
+  - OUTPUT_POSITION_ABUSE
+metrics:
+  utility:
+    - task_success_rate
+    - answer_correctness
+    - plan_completeness
+    - relation_preservation
+    - personalization_accuracy
+  privacy:
+    - raw_secret_exposure_rate
+    - sensitive_span_leakage_rate
+    - cloud_visible_private_atom_ratio
+    - attribute_inference_f1
+    - cross_task_linkage_auc
+    - attack_advantage
+    - disclosure_precision
+    - disclosure_recall
+  security:
+    - prompt_injection_asr
+    - unauthorized_rehydration_rate
+    - replay_acceptance_rate
+    - token_forgery_success_rate
+    - undeclared_slot_acceptance_rate
+  overhead:
+    - local_model_latency_ms
+    - cloud_model_latency_ms
+    - security_pipeline_latency_ms
+    - payload_bytes
+    - token_generation_latency_ms
+    - encryption_overhead_ms
+datasets:
+  normal_tasks: data/normal_tasks
+  attack_tasks: data/attack_tasks
+  synthetic_knowledge: data/synthetic_knowledge
+ablation_configs:
+  - name: remove_task_scope
+    description: Remove task-scoped token derivation
+  - name: remove_hmac
+    description: Replace HMAC with sequential numbering
+  - name: remove_aead
+    description: Store token mappings in plaintext
+  - name: no_purpose_constraint
+    description: Send all sanitized retrieval results to cloud
+  - name: no_task_graph
+    description: Process complete prompt only
+  - name: no_relation_preservation
+    description: Replace all entities with uniform MASK
+  - name: no_token_whitelist
+    description: Remove token whitelist validation
+  - name: no_token_expiry
+    description: Remove token expiration time
+  - name: no_source_labeling
+    description: Remove source tracking
+  - name: no_local_abstraction
+    description: Remove local semantic abstraction

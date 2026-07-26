@@ -1,0 +1,22 @@
+profile: sensecore-single-node
+services:
+  qwen_vllm:
+    host: 127.0.0.1
+    port: 8000
+    model: Qwen/Qwen3-8B
+    tensor_parallel_size: 1
+    gpu_memory_utilization: 0.85
+    max_model_len: 8192
+  vaultagent_api:
+    host: 0.0.0.0
+    port: 8080
+  streamlit_demo:
+    host: 0.0.0.0
+    port: 8501
+storage:
+  model_cache: /workspace/model-cache
+  app_state: /workspace/vaultagent-state
+  experiment_results: /workspace/vaultagent-results
+notes:
+  - Replace paths, GPU count, queue and image according to the actual SenseCore account.
+  - Keep the vLLM port inside localhost or a trusted VPC.

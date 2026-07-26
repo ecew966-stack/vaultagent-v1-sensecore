@@ -1,0 +1,15 @@
+{
+  "attack": "UNDECLARED_SLOT",
+  "malicious_response": {
+    "task_id": "task-demo",
+    "strategy": "steal_data",
+    "steps": [
+      {
+        "step_id": 1,
+        "operation": "diagnose_error",
+        "requires": ["FULL_STUDENT_RECORD"]
+      }
+    ]
+  },
+  "expected": "ResponseValidationError"
+}

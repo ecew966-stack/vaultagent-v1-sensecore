@@ -1,0 +1,35 @@
+policy_version: cssd-v2
+defaults:
+  fail_closed: true
+  token_ttl_seconds: 3600
+  maximum_cloud_steps: 8
+  maximum_cloud_payload_bytes: 32768
+  cumulative_exposure_budget: 1.0
+  allowed_network_sinks: [CLOUD_PLANNER, PROTECTED_CLOUD]
+  forbidden_raw_entity_types: [PERSON, PHONE, EMAIL, ID, CREDENTIAL, HEALTH, ADDRESS]
+  local_only_confidentiality: [SECRET]
+operations:
+  PERSON: TOKENIZE
+  PROJECT: TOKENIZE
+  ORGANIZATION: TOKENIZE
+  BUDGET: GENERALIZE
+  SCORE: GENERALIZE
+  PHONE: BLOCK
+  EMAIL: BLOCK
+  ID: BLOCK
+  CREDENTIAL: BLOCK
+  HEALTH: BLOCK
+  ADDRESS: BLOCK
+  MISCONCEPTION: TOKENIZE
+  TECHNICAL_SECRET: LOCAL_SUMMARIZE
+  PUBLIC_FACT: KEEP_PUBLIC
+  OTHER: PREDICATE
+purpose_rules:
+  planning:
+    allowed_attributes: [role, expertise, workload_band, project_category, budget_band, safe_summary]
+    allowed_relations: [leads, works_on, depends_on, reviews, implements]
+    allowed_outputs: [final_answer]
+  personalized_tutoring:
+    allowed_attributes: [mastery_band, misconception_code, pedagogical_preference, difficulty_pattern, score_band, safe_summary]
+    allowed_relations: [struggles_with, requires_prerequisite, received_feedback, improved_on]
+    allowed_outputs: [final_answer]
